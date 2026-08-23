@@ -1,119 +1,159 @@
-body {
-    background-color: #f5f5f7;
-    color: #1a1a1a;
-    transition: background-color 0.3s ease, color 0.3s ease;
+:root {
+    --bg: #ffffff;
+    --surface: #e6e6e6;
+    --border: #e5e5e5;
+    --text-primary: #191414;
+    --text-secondary: #6a6a6a;
+    --primary: #1db954;
+    --primary-hover: #1aa34a;
+    --bg-dark: #121212;
+    --surface-dark: #181818;
+    --border-dark: #2a2a2a;
+    --text-primary-dark: #ffffff;
+    --text-secondary-dark: #b3b3b3;
+    --primary-dark: #1ed760;
+    --primary-hover-dark: #25f06c;
+    --shadow: 0 8px 24px rgba(31, 35, 51, 0.08);
+    --radius: 999px;
+    --small-radius: 14px;
 }
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: var(--bg);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
 
 #kepala {
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    padding: 5px 15px;
+    background-color: var(--surface);
+    color: var(--primary);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
 }
 
-#kutipan-harian {
-    color: #555555;
-    font-style: italic;
+#app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "tugas kutipan"
+        "catatan cuaca";
+    gap: 24px;
+    padding: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-section {
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 12px;
-    margin-bottom: 16px;
+#toggle-tema {
+    font-weight: 600;
+    border: none;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    padding: 9px 15px;
+    border-radius: var(--radius);
+    transition: background 0.2s ease, transform 0.15s ease;
 }
 
-input, textarea {
-    background-color: #ffffff;
-    padding: 6px 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+#toggle-tema:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
 }
 
 button {
-    background-color: #ffffff;
-    border: 1px solid #ccc;
-    padding: 6px 12px;
-    border-radius: 4px;
-    margin-left: 5px;
+    border: none;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    padding: 9px 15px;
+    margin-left: 2px;
+    margin-right: 2px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    border-radius: var(--small-radius);
+    transition: background 0.2s ease, transform 0.15s ease;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #e2e2e2;
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.tombol-hapus {
+    background-color: var(--primary);
+}
+
+section {
+    padding: 10px 20px;
+    box-shadow: var(--shadow);
+    border-radius: var(--small-radius);
+    background-color: var(--surface);
+}
+
+input, textarea {
+    padding: 5px 5px;
+    border: 1px solid #6b7280;
+    border-radius: var(--small-radius);
+    background-color: var(--background);
+    cursor: pointer;
+}
+
+#section-bttn {
+    display: flex;
+    justify-content: center;
 }
 
 #daftar-tugas li{
-    background-color: #fafafa;
-    border: 1px solid #e0e0e0;
-    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-color: var(--background);
+    border-radius: var(--small-radius);
+    border: 1px solid #6b7280;
 }
 
-#toggle-tema {
-    background-color: rgb(53, 47, 80);
-    color: #ffffff;
-    border: none;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 14px;
-}
-
-#toggle-tema:hover {
-    background-color: rgb(73, 65, 105);
-}
-
-.copyright{
-    text-align: center;
+.dark-mode #kepala {
+    color: var(--primary-dark);
+    background-color: var(--surface-dark);
+    box-shadow: 0 8px 24px rgba(195, 195, 196, 0.08);;
 }
 
 body.dark-mode{
-    background-color: #121212;
-    color: #e0e0e0;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    color: var(--text-primary-dark);
+    background-color: var(--bg-dark);
 }
 
-.dark-mode #daftar-tugas li{
-    background-color: #222;
-    border: 1px solid #333;
+.dark-mode section {
+    color: var(--text-primary-dark);
+    background-color: var(--surface-dark);
 }
 
-.dark-mode section, .dark-mode #kepala {
-    background-color: #1e1e1e;
-    border: 1px solid #333;
+.dark-mode input, .dark-mode textarea, .dark-mode #daftar-tugas li{
+    background-color: var(--surface-dark);
+    color: var(--text-primary-dark);
+    border: 1px solid #2a2a2a;
 }
 
-.dark-mode #toggle-tema {
-    background-color: #fafafa;
-    border: 1px solid #e0e0e0;
-    color: #121212;
+.dark-mode button {
+    background-color: var(--primary-dark);
+    color: var(--text-primary-dark);
 }
 
-.dark-mode button, .dark-mode textarea {
-    background-color: #222;
-    border: 1px solid #333;
-    color: #e0e0e0;
-}
-
-.dark-mode button:hover {
-    background-color: #2a2a2a;
-}
-
-.dark-mode input {
-    background-color: #222;
-    border: 1px solid #252525;
-    color: #e0e0e0;
+.dark-mode button:hover{
+    background-color: var(--primary-hover-dark);
 }
 
 .dark-mode #toggle-tema {
-    background-color: #6ea8fe;
-    color: #121212;
-    font-weight: 600;
-    border: none;
+    background-color: var(--primary-dark);
+    color: var(--text-primary-dark);
 }
 
 .dark-mode #toggle-tema:hover {
-    background-color: #8fbcff;
+    background-color: var(--primary-hover-dark);
 }

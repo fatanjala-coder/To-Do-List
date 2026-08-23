@@ -135,7 +135,25 @@ function renderTugas(filter = "semua") {
 
         li.addEventListener("click", () => toggleSelesai(item.id));
 
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener("click", () => {
+            const tugasBaru = prompt("Masukkan nama tugas: ");
+            if (validasiInput(tugasBaru)){
+                editTugas(item.id, tugasBaru);
+            }
+        })
+        li.appendChild(editBtn);
+
+        li.addEventListener("dblclick", () => {
+            const eventBaru = prompt("Masukan Nama Tugas: ");
+            if (validasiInput(eventBaru)){
+                editTugas(item.id, eventBaru);
+            }
+        });
+
         const tombolHapus = document.createElement("button");
+        tombolHapus.classList.add('tombol-hapus');
         tombolHapus.textContent = "Hapus";
         tombolHapus.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -158,36 +176,7 @@ function aktifkanDragDrop() {
     const items = list.querySelectorAll("li");
 
     items.forEach((item) => {
-        item.setAttribute("draggable", true);
-
-        item.addEventListener("dragstart", (e) => {
-            wadahDrag = item; // Simpan elemen li yang sedang diseret
-            item.classList.add("dragging");
-            e.dataTransfer.setData("text/plain", item.dataset.id);
-        });
-
-        // Saat selesai diseret
-        item.addEventListener("dragend", () => {
-            item.classList.remove("dragging");
-            wadahDrag = null;
-        });
-
-        // Logika menyusun ulang elemen saat berpapasan di udara
-        item.addEventListener("dragover", (e) => {
-            e.preventDefault(); // Wajib agar drop diizinkan
-            const draggingItem = list.querySelector(".dragging");
-            
-            if (draggingItem && draggingItem !== item) {
-                const bounding = item.getBoundingClientRect();
-                const offset = e.clientY - bounding.top - bounding.height / 2;
-
-                if (offset < 0) {
-                    list.insertBefore(draggingItem, item);
-                } else {
-                    list.insertBefore(draggingItem, item.nextSibling);
-                }
-            }
-        });
+    
     });
 }
 
@@ -252,6 +241,12 @@ function renderCatatan() {
             }
         });
 
+        div.addEventListener("dblclick", () => {
+            const dblClickEdit = prompt("Masukan Nama Catatan Baru: ");
+            if (validasiInput(dblClickEdit)){
+                editCatatan(catatan.id, dblClickEdit);
+            }
+        });
 
         const catatanBtnDel = document.createElement("button");
         catatanBtnDel.textContent = "Hapus";
@@ -293,84 +288,6 @@ async function ambilCuaca(kota) {
     }
 }
 
-
-
-// Quotes
-async function ambilKutipan() {
-    const quotesEl = document.getElementById("quotes");
-    if (!quotesEl) return;
-    try {
-        const res = await fetch("https://motivational-spark-api.vercel.app/api/quotes/random");
-        const data = await res.json();
-        quotesEl.textContent = data.quote;
-    } catch (error) {
-        console.log("Gagal mengambil kutipan:", error);
-        quotesEl.textContent = "With Great Power Comes Great Responsibility";
-    }
-}
-
-const quotes = document.createElement("p");
-quotes.id = "quotes";
-quotes.textContent = "Memuat kutipan...";
-kepala.appendChild(quotes);
-
-// Dark Mode/Light Mode
-function terapkanTemaTersimpan() {
-    if (localStorage.getItem("tema") === "gelap") {
-        document.body.classList.add("dark-mode");
-    }
-    perbaruiTeksToggleTema();
-}
-
-function perbaruiTeksToggleTema() {
-    const gelap = document.body.classList.contains("dark-mode");
-    toggleBtn.textContent = gelap ? "Light Mode" : "Dark Mode";
-}
-
-const toggleBtn = document.createElement("button");
-toggleBtn.id = "toggle-tema";
-toggleBtn.style.cursor = 'pointer';
-toggleBtn.textContent = "Dark Mode";
-toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const modeAktif = document.body.classList.contains("dark-mode");
-    localStorage.setItem("tema", modeAktif ? "gelap" : "terang");
-    perbaruiTeksToggleTema();
-});
-kepala.appendChild(toggleBtn);
-
-// Section cuaca
-
-const cuacaSection = document.createElement("section");
-const subCuaca = document.createElement("h3");
-subCuaca.textContent = "Cuaca";
-cuacaSection.appendChild(subCuaca);
-
-const infoCuaca = document.createElement("article");
-const subInfo = document.createElement("h4");
-subInfo.textContent = "Info Cuaca";
-const inputKota = document.createElement("input");
-inputKota.placeholder = "Input Kota";
-const tombolCuaca = document.createElement("button");
-tombolCuaca.textContent = "Cek";
-tombolCuaca.addEventListener("click", () => {
-    const kota = inputKota.value.trim();
-    if (!validasiInput(kota, 100)) return;
-    ambilCuaca(kota);
-});
-
-const info = document.createElement("p");
-info.id = "info-cuaca";
-info.textContent = "Memuat Info Cuaca...";
-
-infoCuaca.append(subInfo, inputKota, tombolCuaca, info);
-cuacaSection.appendChild(infoCuaca);
-app.appendChild(cuacaSection);
-
-const garisCuaca = document.createElement("hr");
-cuacaSection.appendChild(garisCuaca);
-
-
 // Section Tugas
 
 const tugasSection = document.createElement("section");
@@ -378,6 +295,7 @@ const subTugas = document.createElement("h3");
 tugasSection.classList.add("tugas-section");
 subTugas.textContent = "Tugas";
 const article = document.createElement("article");
+article.id = 'article';
 tugasSection.appendChild(subTugas);
 tugasSection.appendChild(article);
 app.appendChild(tugasSection);
@@ -404,8 +322,8 @@ search.style.marginTop = "5px";
 const bttnCari = document.createElement("button");
 bttnCari.textContent = "Cari";
 bttnCari.style.marginTop = "5px";
-tugasSection.appendChild(search);
-tugasSection.appendChild(bttnCari);
+article.appendChild(search);
+
 
 search.addEventListener("input", (e) => {
     const kataKunci = e.target.value.toLowerCase();
@@ -415,28 +333,103 @@ search.addEventListener("input", (e) => {
     }
     const hasil = daftarTugas.filter((t) =>
         t.nama.toLowerCase().includes(kataKunci)
-    );
-    renderTugas(hasil);
+);
+renderTugas(hasil);
 });
 
 const daftarTugasUl = document.createElement("ul");
 daftarTugasUl.id = "daftar-tugas";
-tugasSection.appendChild(daftarTugasUl);
+
 
 const tombolSemua = document.createElement("button");
 tombolSemua.textContent = "Semua";
 tombolSemua.addEventListener("click", () => renderTugas("semua"));
-article.appendChild(tombolSemua);
 
 const tombolSelesaiUI = document.createElement("button");
 tombolSelesaiUI.textContent = "Selesai";
 tombolSelesaiUI.addEventListener("click", () => renderTugas("selesai"));
-article.appendChild(tombolSelesaiUI);
+
 
 const tombolBelum = document.createElement("button");
 tombolBelum.textContent = "Belum";
 tombolBelum.addEventListener("click", () => renderTugas("belum"));
-article.appendChild(tombolBelum);
+
+
+// Button Tugas Section
+const sectionBttn = document.createElement("article");
+sectionBttn.id = 'section-bttn';
+tugasSection.appendChild(daftarTugasUl);
+tugasSection.appendChild(sectionBttn);
+sectionBttn.appendChild(bttnCari);
+sectionBttn.appendChild(tombolSemua);
+sectionBttn.appendChild(tombolBelum);
+sectionBttn.appendChild(tombolSelesaiUI);
+
+
+
+// Quotes
+const sectionQuotes = document.createElement("section");
+const subQuotes = document.createElement("h3");
+subQuotes.textContent = 'Quotes';
+app.appendChild(sectionQuotes);
+sectionQuotes.appendChild(subQuotes);
+
+
+
+async function ambilKutipan() {
+    const quotesEl = document.getElementById("quotes");
+    if (!quotesEl) return;
+    try {
+        const res = await fetch("https://motivational-spark-api.vercel.app/api/quotes/random");
+        const data = await res.json();
+        quotesEl.textContent = data.quote;
+    } catch (error) {
+        console.log("Gagal mengambil kutipan:", error);
+        quotesEl.textContent = "With Great Power Comes Great Responsibility";
+    }
+}
+
+const quotes = document.createElement("p");
+quotes.id = "quotes";
+quotes.textContent = "Memuat kutipan...";
+sectionQuotes.appendChild(quotes);
+
+//refresh
+const refreshQuotes = document.createElement("button");
+refreshQuotes.textContent  = 'Refresh Quotes';
+refreshQuotes.addEventListener("click", () => {
+    ambilKutipan();
+});
+sectionQuotes.appendChild(refreshQuotes);
+
+
+// Dark Mode/Light Mode
+function terapkanTemaTersimpan() {
+    if (localStorage.getItem("tema") === "gelap") {
+        document.body.classList.add("dark-mode");
+    }
+    perbaruiTeksToggleTema();
+}
+
+function perbaruiTeksToggleTema() {
+    const gelap = document.body.classList.contains("dark-mode");
+    toggleBtn.textContent = gelap ? "Light Mode" : "Dark Mode";
+}
+
+const toggleBtn = document.createElement("button");
+toggleBtn.id = "toggle-tema";
+toggleBtn.style.cursor = 'pointer';
+toggleBtn.textContent = "Dark Mode";
+toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    const modeAktif = document.body.classList.contains("dark-mode");
+    localStorage.setItem("tema", modeAktif ? "gelap" : "terang");
+    perbaruiTeksToggleTema();
+});
+kepala.appendChild(toggleBtn);
+
+
+
 
 
 
@@ -467,21 +460,49 @@ app.appendChild(catatanSection);
 const garisCatatan = document.createElement("hr");
 catatanSection.appendChild(garisCatatan);
 
+// Section cuaca
+
+const cuacaSection = document.createElement("section");
+const subCuaca = document.createElement("h3");
+subCuaca.textContent = "Cuaca";
+cuacaSection.appendChild(subCuaca);
+
+const infoCuaca = document.createElement("article");
+const subInfo = document.createElement("h4");
+subInfo.textContent = "Info Cuaca";
+const inputKota = document.createElement("input");
+inputKota.placeholder = "Input Kota";
+const tombolCuaca = document.createElement("button");
+tombolCuaca.textContent = "Cek";
+tombolCuaca.addEventListener("click", () => {
+    const kota = inputKota.value.trim();
+    if (!validasiInput(kota, 100)) return;
+    ambilCuaca(kota);
+});
+
+const info = document.createElement("p");
+info.id = "info-cuaca";
+info.textContent = "Memuat Info Cuaca...";
+
+infoCuaca.append(subInfo);
+infoCuaca.appendChild(inputKota);
+infoCuaca.appendChild(tombolCuaca);
+infoCuaca.appendChild(info);
+cuacaSection.appendChild(infoCuaca);
+app.appendChild(cuacaSection);
+
+const garisCuaca = document.createElement("hr");
+cuacaSection.appendChild(garisCuaca);
 
 
-
-
-
-// Status Muat Data ==
 const status = document.createElement("p");
 app.appendChild(status);
 
 async function muatSemuaWidget() {
     status.textContent = "Memuat data...";
-    await Promise.all([ambilKutipan(), ambilCuaca("Katapang")]);
+    await Promise.all([ambilKutipan(), ambilCuaca("New York")]);
     status.textContent = "Data berhasil dimuat";
 }
-
 
 
 // Render 
