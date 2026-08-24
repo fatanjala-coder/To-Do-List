@@ -1,8 +1,11 @@
+// Rakean Fatanjala Drajat (37) XI RPL 2
+// With Great Power Comes Great Responsibility -Uncle Ben
+
+// ========================================================
+
 console.log("DailyBoard siap dijalankan!");
 
 const app = document.getElementById("app");
-
-
 
 // Header 
 const kepala = document.createElement("header");
@@ -18,6 +21,8 @@ let nextId = 3;
 let daftarTugas = [
     { id: 1, nama: "Belajar UTBK", selesai: false },
     { id: 2, nama: "Belajar JS", selesai: false },
+    { id: 3, nama: "Belajar Materi PK (Penalaran Kinetik)", selesai: false },
+    { id: 4, nama: "Belajar Materi PM (Penalaran Matematika)", selesai: false },
 ];
 let daftarCatatan = [];
 
@@ -146,9 +151,9 @@ function renderTugas(filter = "semua") {
         li.appendChild(editBtn);
 
         li.addEventListener("dblclick", () => {
-            const eventBaru = prompt("Masukan Nama Tugas: ");
-            if (validasiInput(eventBaru)){
-                editTugas(item.id, eventBaru);
+            const dblclickEdit = prompt("Masukan Nama Tugas: ");
+            if (validasiInput(dblClickEdit)){
+                editTugas(item.id, dblclickEdit);
             }
         });
 
@@ -168,7 +173,6 @@ function renderTugas(filter = "semua") {
     aktifkanDragDrop();
 }
 
-let wadahDrag = null;
 // Drag & Drop
 function aktifkanDragDrop() {
     const list = document.getElementById("daftar-tugas");
@@ -176,8 +180,34 @@ function aktifkanDragDrop() {
     const items = list.querySelectorAll("li");
 
     items.forEach((item) => {
-    
+        item.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text/plain", item.dataset.id);
+        });
+
+        item.addEventListener("dragover", (e) => e.preventDefault());
+
+        item.addEventListener("drop", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const idAsal = e.dataTransfer.getData("text/plain");
+            const idTujuan = item.dataset.id;
+
+        pindahkanTugas(idAsal, idTujuan);
+        });
     });
+}
+
+function pindahkanTugas (idAsal, idTujuan) {
+    const tugasAsal = daftarTugas.findIndex(t => t.id == idAsal);
+    const tugasTujuan = daftarTugas.findIndex(t => t.id == idTujuan);
+
+    if(tugasAsal == -1 | tugasTujuan == -1) return;
+    const [item] = daftarTugas.splice(tugasAsal, 1);
+    daftarTugas.splice(tugasTujuan, 0, item);
+
+    simpanTugasKeStorage();
+    renderTugas();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -189,8 +219,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Tugas dipindahkan:", idAsal);
     });
 });
-
-
 
 // Function Catatan
 function tambahCatatan(isi) {
@@ -320,6 +348,7 @@ search.placeholder = "Cari Tugas...";
 search.id = "cari-tugas";
 search.style.marginTop = "5px";
 const bttnCari = document.createElement("button");
+bttnCari.classList.add("find-button");
 bttnCari.textContent = "Cari";
 bttnCari.style.marginTop = "5px";
 article.appendChild(search);
@@ -513,17 +542,18 @@ renderTugas();
 renderCatatan();
 muatSemuaWidget();
 
+
 for (const t of daftarTugas) {
     console.log(`Nama: ${t.nama}`);
 }
 
 //Copyright
 const footer = document.createElement("footer");
+footer.id = 'footer';
 const wmLine = document.createElement("hr");
 footer.style.marginTop = "10px";
 const copyright = document.createElement("p");
 copyright.classList.add("copyright");
 copyright.textContent = '© 2026 Rakean Fatanjala Drajat. Crafted with passion and lots of coffee.';
-app.appendChild(footer);
 footer.appendChild(wmLine);
 footer.appendChild(copyright);

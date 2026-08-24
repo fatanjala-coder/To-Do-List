@@ -1,3 +1,4 @@
+/* UI Reference From Spotify */
 :root {
     --bg: #ffffff;
     --surface: #e6e6e6;
@@ -100,7 +101,12 @@ input, textarea {
     border: 1px solid #6b7280;
     border-radius: var(--small-radius);
     background-color: var(--background);
-    cursor: pointer;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+    border: 2px solid #1aa34a;
+    box-shadow:  0 8px 24px rgba(85, 85, 85, 0.185);
 }
 
 #section-bttn {
@@ -121,7 +127,7 @@ input, textarea {
 .dark-mode #kepala {
     color: var(--primary-dark);
     background-color: var(--surface-dark);
-    box-shadow: 0 8px 24px rgba(195, 195, 196, 0.08);;
+    box-shadow: 0 8px 24px rgba(195, 195, 196, 0.08);
 }
 
 body.dark-mode{
@@ -138,6 +144,12 @@ body.dark-mode{
     background-color: var(--surface-dark);
     color: var(--text-primary-dark);
     border: 1px solid #2a2a2a;
+}
+
+.dark-mode textarea:focus, .dark-mode input:focus {
+    outline: none;
+    border: 2px solid #1ed760;
+    box-shadow:  0 8px 24px rgba(195, 195, 196, 0.08);
 }
 
 .dark-mode button {
