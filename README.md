@@ -1,9 +1,10 @@
 # To Do List
+<a href="https://fatanjala-coder.github.io/To-Do-List/">To Do List</a>
 
-# Apa Itu Web To Do List?
+## Apa Itu Web To Do List?
 Merupakan Web sederhana yang berfungsi untuk membuat daftar tugas atau catatan agar membuat hari hari kita menjadi jauh lebih efisien, dilengkapi dengan fitur localstorage, membuat semua data tersimpan didalam peramban dan tetap tersimpan walaupun keluar dari peramban.  
 
-# Fitur & Cara Pakai
+## Fitur & Cara Pakai
 ### Tugas
 -Tambah Tugas : Masukan Nama Tugas lalu tekan tombol tambah tugas (input tidak boleh kosong, maksimal karakter 100 jika melebihi akan ada sign peringatan). <br>
 -Edit Tugas : Bisa dengan double click di teks tugas yang ingin diedit, bisa juga dengan menekan tombol edit. <br>
@@ -34,3 +35,6 @@ Saya membuat tampilan UI web ini dengan melihat contoh <a href = "https://open.s
 Font Saya mengambil dari Google Fonts bernama <a href ="https://fonts.google.com/specimen/Sora?preview.script=Latn">Sora</a>.
 #### Pengerjaan Project
 Saya Mengerjakan Projek ini dengan melihat modul yang diberikan guru saya, serta sisanya saya mencari di <a href = "https://www.youtube.com/">Youtube</a> dan di <a href = "https://www.google.com/">Google.</a>
+
+## Kritik & Saran
+Web kemungkinan akan terus dikembangkan serta diperbarui UI/UX nya.
