@@ -9,7 +9,8 @@ Merupakan Web sederhana yang berfungsi untuk membuat daftar tugas atau catatan a
 -Tambah Tugas : Masukan Nama Tugas lalu tekan tombol tambah tugas (input tidak boleh kosong, maksimal karakter 100 jika melebihi akan ada sign peringatan). <br>
 -Edit Tugas : Bisa dengan double click di teks tugas yang ingin diedit, bisa juga dengan menekan tombol edit. <br>
 -Hapus Tugas : Menghapus tugas dari daftar tugas. <br>
--Filter Tugas : Tombol "Semua", "Belum", "Selesai", untuk menyaring daftar tugas.
+-Filter Tugas : Tombol "Semua", "Belum", "Selesai", untuk menyaring daftar tugas. <br>
+-Drag & Drop : Untuk menentukan prioritas tugas yang harus dilaksanakan terlebih dahulu, caranya bisa langsung drag saja tugas nya dan tentukan mau drop dimana.
 
 ### Catatan
 -Tambah Catatan : Masukan Nama Tugas lalu tekan tombol tambah catatan (input tidak boleh kosong, maksimal karakter 100 jika melebihi akan ada sign peringatan). <br>
