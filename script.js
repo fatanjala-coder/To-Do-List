@@ -547,13 +547,3 @@ for (const t of daftarTugas) {
     console.log(`Nama: ${t.nama}`);
 }
 
-//Copyright
-const footer = document.createElement("footer");
-footer.id = 'footer';
-const wmLine = document.createElement("hr");
-footer.style.marginTop = "10px";
-const copyright = document.createElement("p");
-copyright.classList.add("copyright");
-copyright.textContent = '© 2026 Rakean Fatanjala Drajat. Crafted with passion and lots of coffee.';
-footer.appendChild(wmLine);
-footer.appendChild(copyright);
